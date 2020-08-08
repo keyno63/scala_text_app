@@ -51,7 +51,7 @@ class PostsSpec extends PlaySpec with GuiceOneServerPerSuite {
           Await.result(ws.url(s"http://localhost:$port/posts").post(Map("post" -> Seq(body))), Duration.Inf)
         assert(response.status === 400)
         assert((response.json \ "meta" \ "status").as[Int] === 400)
-        assert((response.json \ "meta" \ "errorMessage").as[String] === "Please enter a message.")
+        assert((response.json \ "meta" \ "errorMessage").as[String] === "Minimum length is {0}")
       }
     }
 
@@ -62,7 +62,7 @@ class PostsSpec extends PlaySpec with GuiceOneServerPerSuite {
           Await.result(ws.url(s"http://localhost:$port/posts").post(Map("post" -> Seq(body))), Duration.Inf)
         assert(response.status === 400)
         assert((response.json \ "meta" \ "status").as[Int] === 400)
-        assert((response.json \ "meta" \ "errorMessage").as[String] === "The message is too long.")
+        assert((response.json \ "meta" \ "errorMessage").as[String] === "Maximum length is {0}")
       }
     }
   }

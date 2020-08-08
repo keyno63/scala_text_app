@@ -1,0 +1,18 @@
+# root project
+target/
+project/target
+# sub projects
+examples/exchange-image/target/
+examples/exchange-image/project/target
+examples/play-sample/target/
+examples/play-sample/project/target
+
+# h2 files
+*.db
+
+# IDEA
+.idea/
+
+# vscode
+.ensime_cache/
+.metals/

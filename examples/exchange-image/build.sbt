@@ -3,6 +3,7 @@ scalaVersion := "2.13.3"
 lazy val `play-sample` = (project in file("."))
   .enablePlugins(PlayScala)
   .settings(
+    name := "exchange-image",
     libraryDependencies ++= Seq(
       // for play2
       guice, // for Dependencies Injection
@@ -11,10 +12,13 @@ lazy val `play-sample` = (project in file("."))
       filters     // for CORS
     )++ Seq(
       // for test
-      "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlayVersion % "test",
-      "org.mockito" % "mockito-all" % "1.10.19" % Test,
-      "org.mockito" % "mockito-core" % "3.4.6" % Test
+      "org.scalatestplus.play" %% "scalatestplus-play" % scalatestPlayVersion % Test,
+      "org.mockito" % "mockito-core" % mockitoVersion % Test,
+      "org.mockito" %% "mockito-scala" % mockitoScalaVersion % Test,
+      "org.mockito" %% "mockito-scala-scalatest" % mockitoScalaVersion % Test
     )
   )
 
 lazy val scalatestPlayVersion = "5.1.0"
+lazy val mockitoVersion = "3.4.6"
+lazy val mockitoScalaVersion = "1.5.17"

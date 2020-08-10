@@ -4,6 +4,7 @@ import domain.entity.OriginalPicture
 import scala.concurrent.Future
 
 trait ConvertPictureService {
+
   /**
    * 投稿された画像の変換を開始する
    * 変換は非同期に実行され、結果はConvertedPictureRepositoryに保存される

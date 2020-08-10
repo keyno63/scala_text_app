@@ -12,10 +12,10 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 class GetPictureService @Inject() (
-                                    convertedPictureRepository: ConvertedPictureRepository,
-                                    picturePropertyRepository: PicturePropertyRepository,
-                                    executionContext: ExecutionContext
-                                  ) {
+  convertedPictureRepository: ConvertedPictureRepository,
+  picturePropertyRepository: PicturePropertyRepository,
+  executionContext: ExecutionContext
+) {
 
   implicit val ec = executionContext
 
@@ -28,17 +28,18 @@ class GetPictureService @Inject() (
    *         Future.failed(ConvertingException)                     画像の変換中
    *         Future.failed(DatabaseException)                       データベースからの読み込みに失敗した
    */
-  def get(pictureId: PictureId): Future[(ConvertedPicture, PictureProperty)] = {
+  def get(pictureId: PictureId): Future[(ConvertedPicture, PictureProperty)] =
     for {
       property <- picturePropertyRepository.find(pictureId)
       picture <- property.value.status match {
-        case PictureProperty.Status.Success =>
-          convertedPictureRepository.find(pictureId)
-        case PictureProperty.Status.Failure =>
-          Future.failed(new ConversionFailureException(s"Picture conversion is failed. Picture Id: ${pictureId.value}"))
-        case PictureProperty.Status.Converting =>
-          Future.failed(new ConvertingException(s"Picture is converting. Picture Id: ${pictureId.value}"))
-      }
+                  case PictureProperty.Status.Success =>
+                    convertedPictureRepository.find(pictureId)
+                  case PictureProperty.Status.Failure =>
+                    Future.failed(
+                      new ConversionFailureException(s"Picture conversion is failed. Picture Id: ${pictureId.value}")
+                    )
+                  case PictureProperty.Status.Converting =>
+                    Future.failed(new ConvertingException(s"Picture is converting. Picture Id: ${pictureId.value}"))
+                }
     } yield (picture, property)
-  }
 }

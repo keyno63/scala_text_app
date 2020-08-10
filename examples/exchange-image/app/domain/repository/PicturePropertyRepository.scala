@@ -7,6 +7,7 @@ import domain.entity.TwitterId
 import scala.concurrent.Future
 
 trait PicturePropertyRepository {
+
   /**
    * 画像のプロパティを保存する
    * @param value 画像のプロパティの値

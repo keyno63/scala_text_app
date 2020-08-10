@@ -5,6 +5,7 @@ import domain.entity.PictureId
 import scala.concurrent.Future
 
 trait ConvertedPictureRepository {
+
   /**
    * 変換後の画像を保存する
    * @param converted 変換後の画像

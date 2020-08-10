@@ -8,8 +8,9 @@ import domain.repository.PicturePropertyRepository
 import scala.concurrent.Future
 
 class GetPicturePropertiesService @Inject() (
-                                              picturePropertyRepository: PicturePropertyRepository
-                                            ) {
+  picturePropertyRepository: PicturePropertyRepository
+) {
+
   /**
    * 投稿者のTwitter IDと最後に読み込まれた作成日時から画像のプロパティを読み込む
    * @param twitterId 投稿者のTwitter ID

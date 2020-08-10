@@ -11,10 +11,10 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 class PostPictureService @Inject() (
-                                     convertPictureService: ConvertPictureService,
-                                     picturePropertyRepository: PicturePropertyRepository,
-                                     executionContext: ExecutionContext
-                                   ) {
+  convertPictureService: ConvertPictureService,
+  picturePropertyRepository: PicturePropertyRepository,
+  executionContext: ExecutionContext
+) {
   val availableMediaTypes = Seq(MediaType.JPEG, MediaType.PNG, MediaType.GIF, MediaType.BMP)
 
   implicit val ec = executionContext
@@ -28,19 +28,18 @@ class PostPictureService @Inject() (
    *         Future.failed(DatabaseException)           データベースへの保存に失敗した
    *         Future.failed(ConversionFailureException)  画像の変換に失敗した
    */
-  def post(binary: Array[Byte], property: PictureProperty.Value): Future[Unit] = {
+  def post(binary: Array[Byte], property: PictureProperty.Value): Future[Unit] =
     if (availableMediaTypes.contains(property.contentType)) {
       for {
         id <- picturePropertyRepository.create(property)
         _ <- convertPictureService.convert(OriginalPicture(id, binary)).recoverWith {
-          case e: ConversionFailureException =>
-            picturePropertyRepository
-              .updateStatus(id, PictureProperty.Status.Failure)
-              .flatMap(_ => Future.failed(e))
-        }
+              case e: ConversionFailureException =>
+                picturePropertyRepository
+                  .updateStatus(id, PictureProperty.Status.Failure)
+                  .flatMap(_ => Future.failed(e))
+            }
       } yield ()
     } else {
       Future.failed(InvalidContentTypeException(s"Invalid content type: ${property.contentType}"))
     }
-  }
 }

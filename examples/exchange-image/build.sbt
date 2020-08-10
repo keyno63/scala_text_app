@@ -1,6 +1,6 @@
 scalaVersion := "2.13.3"
 
-lazy val `play-sample` = (project in file("."))
+lazy val `exchange-image` = (project in file("."))
   .enablePlugins(PlayScala)
   .settings(
     name := "exchange-image",

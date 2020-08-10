@@ -14,6 +14,7 @@ import play.api.libs.json.Writes
 case class PictureProperty(id: PictureId, value: PictureProperty.Value)
 
 object PictureProperty {
+
   /**
    * 画像のステータス
    * @param value 画像のステータスの値
@@ -35,10 +36,10 @@ object PictureProperty {
      */
     def parse(value: String): Option[Status] =
       value match {
-        case Success.value => Some(Success)
-        case Failure.value => Some(Failure)
+        case Success.value    => Some(Success)
+        case Failure.value    => Some(Failure)
         case Converting.value => Some(Converting)
-        case _ => None
+        case _                => None
       }
 
     implicit val writes: Writes[Status] = Writes(s => JsString(s.toString))
@@ -55,18 +56,18 @@ object PictureProperty {
    * @param createdTime 投稿された時間
    */
   case class Value(
-                    status: Status,
-                    twitterId: TwitterId,
-                    fileName: String,
-                    contentType: MediaType,
-                    overlayText: String,
-                    overlayTextSize: Int,
-                    createdTime: LocalDateTime
-                  )
+    status: Status,
+    twitterId: TwitterId,
+    fileName: String,
+    contentType: MediaType,
+    overlayText: String,
+    overlayTextSize: Int,
+    createdTime: LocalDateTime
+  )
 
   object Value {
     implicit val mediaTypeWrites: Writes[MediaType] = Writes(s => JsString(s.toString))
-    implicit val writes: Writes[Value] = Json.writes[Value]
+    implicit val writes: Writes[Value]              = Json.writes[Value]
   }
 
   implicit val writes: Writes[PictureProperty] = Json.writes[PictureProperty]
